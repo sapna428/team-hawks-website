@@ -5999,6 +5999,13 @@ html body section#how-we-work.work-process {
           form.reportValidity();
           return;
         }
+                // Basic bot checks: filled honeypot or form sent too fast
+        const honeyField = form.querySelector('[name="_gotcha"]');
+        const loadedAt = Number(document.getElementById('contactFormTimestamp').value);
+        if ((honeyField && honeyField.value) || (loadedAt && Date.now() - loadedAt < 4000)) {
+          showStatus('success', '✓ Thank you! Your message has been sent. We’ll be in touch soon.');
+          return;
+        }
 
         // reCAPTCHA must be ticked
         if (typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse()) {
