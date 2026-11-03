@@ -5813,11 +5813,17 @@ html body #about .ti-card .ti-person span {
                   <input id="contactEmail" name="email" type="email" placeholder="you@company.com" autocomplete="email"
                     required>
                 </div>
-                <div class="contact-field full">
-                  <label for="contactCompany">Company Name</label>
-                  <input id="contactCompany" name="company" type="text" placeholder="Your company"
-                    autocomplete="organization">
-                </div>
+               <div class="contact-field">
+  <label for="contactPhone">Phone Number</label>
+  <input id="contactPhone" name="phone" type="tel" placeholder="+92 300 1234567"
+    autocomplete="tel" inputmode="tel" pattern="[0-9+()\-\s]{7,20}"
+    title="Enter a valid phone number, e.g. +92 300 1234567">
+</div>
+<div class="contact-field">
+  <label for="contactCompany">Company Name</label>
+  <input id="contactCompany" name="company" type="text" placeholder="Your company"
+    autocomplete="organization">
+</div>
                 <div class="contact-field full">
                   <label for="contactService">Service Required *</label>
                 <select id="contactService" name="service" required>
