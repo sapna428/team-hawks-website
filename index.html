@@ -5162,6 +5162,11 @@ html body #about .ti-card .ti-person strong {
 html body #about .ti-card .ti-person span {
   line-height: 1.4 !important;
 }
+    /* HAWK: move up so wings touch the line */
+:root { --video-lift: 150px; }
+
+@media (max-width: 800px) { :root { --video-lift: 60px; } }
+@media (max-width: 600px) { :root { --video-lift: 30px; } }
   </style>
 
 </head>
@@ -5561,7 +5566,7 @@ html body #about .ti-card .ti-person span {
         </div>
                 <div class="hk-reach">
           <div>
-            <h3>Global Support, Local Care</h3>
+<h3>Global Support, <span class="gold">Local Care</span></h3>
             <p>From our offices in Pakistan and London, Team Hawks supports businesses across regions and time zones with teams you can rely on.</p>
             <div class="hk-offices">
               <span><b>Pakistan</b>+92 345 6115222</span>
@@ -5813,16 +5818,62 @@ html body #about .ti-card .ti-person span {
                   <input id="contactEmail" name="email" type="email" placeholder="you@company.com" autocomplete="email"
                     required>
                 </div>
-               <div class="contact-field">
+             <div class="contact-field">
+  <label for="contactCompany">Company Name</label>
+  <input id="contactCompany" name="company" type="text" placeholder="Your company"
+    autocomplete="organization">
+</div>
+<div class="contact-field">
   <label for="contactPhone">Phone Number</label>
   <input id="contactPhone" name="phone" type="tel" placeholder="+92 300 1234567"
     autocomplete="tel" inputmode="tel" pattern="[0-9+()\-\s]{7,20}"
     title="Enter a valid phone number, e.g. +92 300 1234567">
 </div>
-<div class="contact-field">
-  <label for="contactCompany">Company Name</label>
-  <input id="contactCompany" name="company" type="text" placeholder="Your company"
-    autocomplete="organization">
+<div class="contact-field full">
+  <label for="contactCountry">Country *</label>
+  <select id="contactCountry" name="country" autocomplete="country-name" required>
+    <option value="" disabled selected>Select your country</option>
+    <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Andorra</option><option>Angola</option>
+    <option>Antigua and Barbuda</option><option>Argentina</option><option>Armenia</option><option>Australia</option><option>Austria</option>
+    <option>Azerbaijan</option><option>Bahamas</option><option>Bahrain</option><option>Bangladesh</option><option>Barbados</option>
+    <option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bhutan</option>
+    <option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Botswana</option><option>Brazil</option><option>Brunei</option>
+    <option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cabo Verde</option><option>Cambodia</option>
+    <option>Cameroon</option><option>Canada</option><option>Central African Republic</option><option>Chad</option><option>Chile</option>
+    <option>China</option><option>Colombia</option><option>Comoros</option><option>Congo (Republic)</option><option>Congo (Democratic Republic)</option>
+    <option>Costa Rica</option><option>Côte d’Ivoire</option><option>Croatia</option><option>Cuba</option><option>Cyprus</option>
+    <option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option>
+    <option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option>
+    <option>Estonia</option><option>Eswatini</option><option>Ethiopia</option><option>Fiji</option><option>Finland</option>
+    <option>France</option><option>Gabon</option><option>Gambia</option><option>Georgia</option><option>Germany</option>
+    <option>Ghana</option><option>Greece</option><option>Grenada</option><option>Guatemala</option><option>Guinea</option>
+    <option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hungary</option>
+    <option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option>
+    <option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option>
+    <option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option><option>Kosovo</option>
+    <option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option>
+    <option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Liechtenstein</option><option>Lithuania</option>
+    <option>Luxembourg</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Maldives</option>
+    <option>Mali</option><option>Malta</option><option>Marshall Islands</option><option>Mauritania</option><option>Mauritius</option>
+    <option>Mexico</option><option>Micronesia</option><option>Moldova</option><option>Monaco</option><option>Mongolia</option>
+    <option>Montenegro</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option>
+    <option>Nauru</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option>
+    <option>Niger</option><option>Nigeria</option><option>North Korea</option><option>North Macedonia</option><option>Norway</option>
+    <option>Oman</option><option>Pakistan</option><option>Palau</option><option>Palestine</option><option>Panama</option>
+    <option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option>
+    <option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option>
+    <option>Saint Kitts and Nevis</option><option>Saint Lucia</option><option>Saint Vincent and the Grenadines</option><option>Samoa</option><option>San Marino</option>
+    <option>São Tomé and Príncipe</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Seychelles</option>
+    <option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Solomon Islands</option>
+    <option>Somalia</option><option>South Africa</option><option>South Korea</option><option>South Sudan</option><option>Spain</option>
+    <option>Sri Lanka</option><option>Sudan</option><option>Suriname</option><option>Sweden</option><option>Switzerland</option>
+    <option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option><option>Thailand</option>
+    <option>Timor-Leste</option><option>Togo</option><option>Tonga</option><option>Trinidad and Tobago</option><option>Tunisia</option>
+    <option>Türkiye</option><option>Turkmenistan</option><option>Tuvalu</option><option>Uganda</option><option>Ukraine</option>
+    <option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option>
+    <option>Vanuatu</option><option>Vatican City</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option>
+    <option>Zambia</option><option>Zimbabwe</option>
+  </select>
 </div>
                 <div class="contact-field full">
                   <label for="contactService">Service Required *</label>
