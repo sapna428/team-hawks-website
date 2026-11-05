@@ -5167,6 +5167,25 @@ html body #about .ti-card .ti-person span {
 
 @media (max-width: 800px) { :root { --video-lift: 60px; } }
 @media (max-width: 600px) { :root { --video-lift: 30px; } }
+    /* HAWK VIDEO: blend with banner + soft edges */
+.video-frame {
+  background: transparent !important;
+  mix-blend-mode: screen;   /* video ka black hissa banner mein ghul jata hai */
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%),
+    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image:
+    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%),
+    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.video-frame video {
+  background: transparent !important;
+  mix-blend-mode: normal;
+  filter: contrast(1.2) brightness(.95);   /* video ka halka grey black pure black banata hai */
+}
   </style>
 
 </head>
