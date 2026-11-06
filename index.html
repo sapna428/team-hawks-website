@@ -5190,6 +5190,11 @@ html body #about .ti-card .ti-person span {
 .video-frame {
   mix-blend-mode: lighten;
 }
+    /* BO'S PHOTO: rotate slightly to the right so she looks straight */
+.ti-person img[src*="bo.jpeg"] {
+  transform: rotate(8deg) scale(1.12);  /* + = right (clockwise), - = left */
+  transform-origin: center;
+}
   </style>
 
 </head>
