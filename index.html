@@ -5167,43 +5167,38 @@ html body #about .ti-card .ti-person span {
 
 @media (max-width: 800px) { :root { --video-lift: 60px; } }
 @media (max-width: 600px) { :root { --video-lift: 30px; } }
-    /* HAWK VIDEO: blend with banner + soft edges */
+ /* HAWK VIDEO: black ki jagah golden theme glow, soft round edges */
 .video-frame {
-  background: transparent !important;
-  mix-blend-mode: screen;   /* video ka black hissa banner mein ghul jata hai */
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%),
-    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
-  mask-image:
-    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%),
-    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-}
-
-.video-frame video {
-  background: transparent !important;
-  mix-blend-mode: normal;
-  filter: contrast(1.2) brightness(.95);   /* video ka halka grey black pure black banata hai */
-}
-   /* HAWK: network lines behind the hawk, not over it */
-.video-frame {
-  mix-blend-mode: normal;
-  background: #000 !important;   /* video ke piche solid black, lines is ke andar nahi dikhengi */
   position: relative;
   z-index: 2;
+  isolation: isolate;
+  mix-blend-mode: normal;
+  background:
+    radial-gradient(ellipse at 50% 55%,
+      rgba(245, 166, 35, .22) 0%,
+      rgba(120, 75, 10, .16) 38%,
+      rgba(25, 16, 4, .9) 70%,
+      #000 100%) !important;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 48%, transparent 76%);
+  mask-image: radial-gradient(ellipse at center, #000 48%, transparent 76%);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
 }
 
 .video-frame video {
-  mix-blend-mode: normal;
-  background: #000 !important;
+  background: transparent !important;
+  mix-blend-mode: screen;
+  filter: contrast(1.2) brightness(.95);
 }
-    /* BO'S PHOTO: rotate slightly to the right so she looks straight */
+
+/* BO'S PHOTO: rotate slightly to the right so she looks straight */
 .ti-person img[src*="bo.jpeg"] {
-  transform: rotate(8deg) scale(1.12);  /* + = right (clockwise), - = left */
+  transform: rotate(8deg) scale(1.12);
   transform-origin: center;
 }
-    #about .ti-cards .ti-card,
+
+/* PERFORMANCE: backdrop-filter hataya */
+#about .ti-cards .ti-card,
 #impact .ti-stat,
 .hk-panel,
 .hk-float,
@@ -5214,7 +5209,7 @@ html body #about .ti-card .ti-person span {
 
 .site-header.scrolled {
   -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);   /* 22px se kam, sticky header har scroll par repaint hota hai */
+  backdrop-filter: blur(8px);
 }
   </style>
 
