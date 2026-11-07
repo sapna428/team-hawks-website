@@ -5168,27 +5168,20 @@ html body #about .ti-card .ti-person span {
 @media (max-width: 800px) { :root { --video-lift: 60px; } }
 @media (max-width: 600px) { :root { --video-lift: 30px; } }
  /* HAWK VIDEO: black ki jagah golden theme glow, soft round edges */
+/* HAWK VIDEO: no box, background poore banner jaisa */
 .video-frame {
   position: relative;
   z-index: 2;
-  isolation: isolate;
-  mix-blend-mode: normal;
-  background:
-    radial-gradient(ellipse at 50% 55%,
-      rgba(245, 166, 35, .22) 0%,
-      rgba(120, 75, 10, .16) 38%,
-      rgba(25, 16, 4, .9) 70%,
-      #000 100%) !important;
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 48%, transparent 76%);
-  mask-image: radial-gradient(ellipse at center, #000 48%, transparent 76%);
-  -webkit-mask-composite: source-over;
-  mask-composite: add;
+  background: transparent !important;
+  mix-blend-mode: screen;   /* video ka black hissa gayab, banner ka background nazar aaye */
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 80%);
 }
 
 .video-frame video {
   background: transparent !important;
-  mix-blend-mode: screen;
-  filter: contrast(1.2) brightness(.95);
+  mix-blend-mode: normal;
+  filter: contrast(1.35) brightness(.9);   /* halka grey black pure black banta hai */
 }
 
 /* BO'S PHOTO: rotate slightly to the right so she looks straight */
@@ -5210,6 +5203,31 @@ html body #about .ti-card .ti-person span {
 .site-header.scrolled {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+}
+    /* HERO: text ko upar karo, khali space kam */
+.hero {
+  padding: 28px 0 55px;          /* upar ka padding 72px se 28px */
+}
+
+.hero-grid {
+  align-items: start;            /* text upar se shuru ho, beech mein nahi */
+}
+
+.hero-content {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* hawk video apni jagah rahe, bas text ke saath upar se align ho */
+.hero-visual {
+  align-self: start;
+}
+
+@media (max-width: 800px) {
+  .hero { padding: 24px 0 45px; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 20px 0 40px; }
 }
   </style>
 
@@ -6600,6 +6618,18 @@ requestAnimationFrame(frame);
   var nodes = [], dust = [], pulses = [];
   var mouse = { x: -9999, y: -9999 };
   var visible = true, running = false;
+  var hole = null;
+function calcHole() {
+  var f = document.querySelector('.video-frame');
+  if (!f) return;
+  var a = f.getBoundingClientRect(), c = cv.getBoundingClientRect();
+  hole = {
+    x: (a.left + a.width / 2 - c.left) * dpr,
+    y: (a.top + a.height / 2 - c.top) * dpr,
+    rx: a.width * 0.36 * dpr,
+    ry: a.height * 0.34 * dpr
+  };
+}
 
   function rnd(a, b) { return a + Math.random() * (b - a); }
 
@@ -6632,6 +6662,7 @@ requestAnimationFrame(frame);
       });
     }
     pulses = [];
+    calcHole();
   }
 
   function step() {
@@ -6718,7 +6749,7 @@ requestAnimationFrame(frame);
         cx.arc(n.x, n.y, n.r, 0, 6.2832);
         cx.fillStyle = '#ffe29a';
         cx.shadowColor = '#f5a623';
-        cx.shadowBlur = 12 * dpr;
+        cx.shadowBlur = 6 * dpr;
         cx.fill();
         cx.shadowBlur = 0;
       } else {
@@ -6741,9 +6772,25 @@ requestAnimationFrame(frame);
       cx.arc(px, py, 2.2 * dpr, 0, 6.2832);
       cx.fillStyle = 'rgba(255,226,154,.95)';
       cx.shadowColor = '#f5a623';
-      cx.shadowBlur = 14 * dpr;
+      cx.shadowBlur = 7 * dpr;
       cx.fill();
       cx.shadowBlur = 0;
+    }
+
+    /* hawk ke andar lines/nodes mita do (soft edge ke saath) */
+    if (hole) {
+      cx.save();
+      cx.globalCompositeOperation = 'destination-out';
+      cx.translate(hole.x, hole.y);
+      cx.scale(1, hole.ry / hole.rx);
+      var hg = cx.createRadialGradient(0, 0, hole.rx * 0.55, 0, 0, hole.rx);
+      hg.addColorStop(0, 'rgba(0,0,0,1)');
+      hg.addColorStop(1, 'rgba(0,0,0,0)');
+      cx.fillStyle = hg;
+      cx.beginPath();
+      cx.arc(0, 0, hole.rx, 0, 6.2832);
+      cx.fill();
+      cx.restore();
     }
   }
 
@@ -6761,6 +6808,7 @@ requestAnimationFrame(frame);
   }
 
   build();
+   window.addEventListener('load', calcHole);
   if (reduce) { render(0); }
   else { start(); }
 
