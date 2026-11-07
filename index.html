@@ -5229,6 +5229,19 @@ html body #about .ti-card .ti-person span {
 @media (max-width: 600px) {
   .hero { padding: 20px 0 40px; }
 }
+    /* HAWK: piche ka golden glow band, video ka brown background pure black */
+.hero-visual::before {
+  display: none !important;
+}
+
+.video-frame {
+  background: transparent !important;
+}
+
+.video-frame video {
+  background: transparent !important;
+  filter: url(#hkBlack);
+}
   </style>
 
 </head>
@@ -7009,6 +7022,15 @@ function calcHole() {
   }
 })();
 </script>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="hkBlack" color-interpolation-filters="sRGB">
+    <feComponentTransfer>
+      <feFuncR type="linear" slope="1.4" intercept="-0.2"/>
+      <feFuncG type="linear" slope="1.4" intercept="-0.2"/>
+      <feFuncB type="linear" slope="1.4" intercept="-0.2"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 </body>
 </html>
   
