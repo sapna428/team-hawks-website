@@ -5186,14 +5186,35 @@ html body #about .ti-card .ti-person span {
   mix-blend-mode: normal;
   filter: contrast(1.2) brightness(.95);   /* video ka halka grey black pure black banata hai */
 }
-    /* HAWK: network lines behind the hawk, not over it */
+   /* HAWK: network lines behind the hawk, not over it */
 .video-frame {
-  mix-blend-mode: lighten;
+  mix-blend-mode: normal;
+  background: #000 !important;   /* video ke piche solid black, lines is ke andar nahi dikhengi */
+  position: relative;
+  z-index: 2;
+}
+
+.video-frame video {
+  mix-blend-mode: normal;
+  background: #000 !important;
 }
     /* BO'S PHOTO: rotate slightly to the right so she looks straight */
 .ti-person img[src*="bo.jpeg"] {
   transform: rotate(8deg) scale(1.12);  /* + = right (clockwise), - = left */
   transform-origin: center;
+}
+    #about .ti-cards .ti-card,
+#impact .ti-stat,
+.hk-panel,
+.hk-float,
+.hero-badge {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.site-header.scrolled {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);   /* 22px se kam, sticky header har scroll par repaint hota hai */
 }
   </style>
 
