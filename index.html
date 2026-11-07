@@ -5242,6 +5242,35 @@ html body #about .ti-card .ti-person span {
   background: transparent !important;
   filter: url(#hkBlack);
 }
+    /* HAWK: mobile par bara */
+@media (max-width: 800px) {
+  .hero-visual {
+    min-height: 0;
+    margin-top: 10px;
+  }
+
+  .video-frame {
+    width: 108vw;          /* screen se thora bara, wings poore dikhen */
+    max-width: none;
+    flex: 0 0 auto;
+  }
+
+  .video-frame video {
+    max-height: none;      /* height ki limit hata di taake video poora bara ho */
+  }
+}
+
+@media (max-width: 600px) {
+  :root { --video-lift: 0px; }
+
+  .hero-visual {
+    min-height: 0;
+  }
+
+  .video-frame {
+    width: 112vw;          /* phone par aur bara */
+  }
+}
   </style>
 
 </head>
