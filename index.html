@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+    <script>
+    try {
+      if (sessionStorage.getItem('hkIntroSeen')) {
+        document.documentElement.classList.add('intro-seen');
+      }
+    } catch (e) {}
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
@@ -5459,6 +5466,8 @@ html body #about .ti-card .ti-person span {
   .nav-dd:hover .dd-menu, .nav-dd:focus-within .dd-menu { display: none; }
   .nav-dd.open .dd-menu { display: block; }
 }
+    /* intro sirf pehli dafa: agar is tab mein pehle chal chuka ho to chupa do */
+html.intro-seen #page-loader { display: none !important; }
   </style>
 
 </head>
@@ -6460,6 +6469,13 @@ html body #about .ti-card .ti-person span {
     if (!loader) return;
 
     const root = document.documentElement;
+    /* agar intro is tab mein pehle chal chuka hai to skip karo */
+    if (root.classList.contains("intro-seen")) {
+      loader.remove();
+      return;
+    }
+    try { sessionStorage.setItem("hkIntroSeen", "1"); } catch (e) {}
+    root.classList.add("intro-lock");
     root.classList.add("intro-lock");
 
     let finished = false;
