@@ -5425,6 +5425,40 @@ html body #about .ti-card .ti-person span {
 @media (max-width: 800px) {
   .hero-emblem { --em: 52vw; opacity: .2; }
 }
+    /* CAREER BADGE */
+.hk-badge{margin-left:6px;padding:2px 8px;border-radius:50px;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.6);color:#e8b04a;font-size:10px;font-weight:800;vertical-align:middle;animation:hk-badge-pulse 2s infinite}
+@keyframes hk-badge-pulse{50%{box-shadow:0 0 12px rgba(245,166,35,.6)}}
+
+/* SERVICES DROPDOWN */
+.nav-dd { position: relative; display: flex; align-items: center; gap: 4px; }
+.nav-dd .dd-toggle { color: #b9bdc4; font-size: 14px; font-weight: 600; padding: 8px 2px; transition: color .25s, text-shadow .25s; }
+.nav-dd:hover .dd-toggle, .nav-dd .dd-toggle.active { color: #fff; text-shadow: 0 0 14px rgba(245,166,35,.45); }
+.dd-btn { background: none; border: 0; padding: 4px; cursor: pointer; color: #b9bdc4; font-size: 13px; line-height: 1; transition: transform .3s ease, color .25s; }
+.nav-dd:hover .dd-btn { color: var(--gold); transform: rotate(180deg); }
+.dd-menu {
+  position: absolute; top: 100%; left: -14px; width: 310px; padding: 10px; margin-top: 10px;
+  border: 1px solid rgba(245,166,35,.4); border-radius: 12px;
+  background: linear-gradient(180deg, #1d1e21, #0b0b0c);
+  box-shadow: 0 24px 50px rgba(0,0,0,.7), 0 0 24px rgba(245,166,35,.12);
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s; z-index: 1200;
+}
+.dd-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
+.nav-dd:hover .dd-menu, .nav-dd:focus-within .dd-menu { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease, visibility 0s; }
+.dd-menu .dd-link { display: block; padding: 10px 12px; border-radius: 8px; color: #c4c8ce; font-size: 13.5px; font-weight: 600; transition: background .2s, color .2s, padding-left .2s; }
+.dd-menu .dd-link:hover { color: #fff; padding-left: 18px; background: linear-gradient(90deg, rgba(245,166,35,.2), transparent); }
+
+@media (max-width: 960px) {
+  .nav-dd { flex-wrap: wrap; justify-content: space-between; }
+  .nav-dd .dd-toggle { flex: 1; padding: 15px 16px; font-size: 16px; }
+  .dd-btn { padding: 12px 16px; font-size: 16px; }
+  .nav-dd:hover .dd-btn { transform: none; }
+  .nav-dd.open .dd-btn { transform: rotate(180deg); color: var(--gold); }
+  .dd-menu { position: static; width: 100%; margin: 0 0 6px; padding: 4px 0 4px 12px; border: 0; border-left: 2px solid rgba(245,166,35,.4); border-radius: 0; background: none; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; }
+  .dd-menu::before { display: none; }
+  .nav-dd:hover .dd-menu, .nav-dd:focus-within .dd-menu { display: none; }
+  .nav-dd.open .dd-menu { display: block; }
+}
   </style>
 
 </head>
@@ -5454,12 +5488,28 @@ html body #about .ti-card .ti-person span {
       <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false"
         aria-controls="mainNav">☰</button>
 
-      <nav class="nav-links" id="mainNav" aria-label="Main navigation">
-        <a class="active" href="#home">Home</a>
-        <a href="#services">Services</a>
+          <nav class="nav-links" id="mainNav" aria-label="Main navigation">
+        <a class="active" href="#about">About Us</a>
+
+        <div class="nav-dd">
+          <a class="dd-toggle" href="#services">Services</a>
+          <button class="dd-btn" type="button" aria-label="Show sub services" aria-expanded="false">▾</button>
+          <div class="dd-menu">
+            <a class="dd-link" href="#services">Lead Generation Services</a>
+            <a class="dd-link" href="#services">E-Commerce Support</a>
+            <a class="dd-link" href="#services">Email / Live Chat Support</a>
+            <a class="dd-link" href="#services">Data Clean-up Support</a>
+            <a class="dd-link" href="#services">Web App Development</a>
+            <a class="dd-link" href="#services">Digital Marketing</a>
+            <a class="dd-link" href="#services">Back-Office Support</a>
+            <a class="dd-link" href="#services">Sales Support</a>
+            <a class="dd-link" href="#services">Refund / Stripe Chargeback / Bookkeeping</a>
+          </div>
+        </div>
+
         <a href="#industries">Industries</a>
         <a href="#why">Why Team Hawks</a>
-        <a href="#about">About Us</a>
+        <a href="career.html">Career <span class="hk-badge">Hiring</span></a>
         <a class="btn-custom btn-gold nav-cta" href="https://wa.me/923456115222" target="_blank"
           rel="noopener noreferrer">Contact Us ↗</a>
       </nav>
@@ -6229,6 +6279,7 @@ html body #about .ti-card .ti-person span {
           <a href="#services">Our Services</a>
           <a href="#process">How We Work</a>
           <a href="#about">Client Experiences</a>
+           <a href="career.html">Careers</a>
         </div>
 
         <div class="footer-col">
@@ -7122,7 +7173,7 @@ requestAnimationFrame(frame);
   var nav = document.getElementById('mainNav');
   if (!nav) return;
 
-  var links = Array.prototype.slice.call(nav.querySelectorAll('a:not(.btn-custom)'));
+ var links = Array.prototype.slice.call(nav.querySelectorAll('a:not(.btn-custom):not(.dd-link)'));
   var root = document.documentElement;
   var mq = window.matchMedia('(max-width: 960px)');
 
@@ -7133,13 +7184,14 @@ requestAnimationFrame(frame);
   nav.appendChild(glow);
 
   function current() { return nav.querySelector('a.active') || links[0]; }
-
-  function move(el) {
+  
+      function move(el) {
     if (!el || mq.matches) { glow.style.opacity = 0; return; }
+    var n = nav.getBoundingClientRect(), r = el.getBoundingClientRect();
     glow.style.opacity = 1;
-    glow.style.width = el.offsetWidth + 'px';
-    glow.style.top = (el.offsetTop + el.offsetHeight + 6) + 'px';
-    glow.style.transform = 'translateX(' + el.offsetLeft + 'px)';
+    glow.style.width = r.width + 'px';
+    glow.style.top = (r.bottom - n.top + 6) + 'px';
+    glow.style.transform = 'translateX(' + (r.left - n.left) + 'px)';
   }
 
   links.forEach(function (l) {
@@ -7298,6 +7350,15 @@ requestAnimationFrame(frame);
     </feComponentTransfer>
   </filter>
 </svg>
+  <script>
+document.querySelectorAll('.dd-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var dd = btn.closest('.nav-dd');
+    var open = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+});
+</script>
 </body>
 </html>
   
