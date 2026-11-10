@@ -7375,16 +7375,24 @@ document.querySelectorAll('.dd-btn').forEach(function (btn) {
   });
 });
 </script>
-  <script>
+ <script>
+/* intro ke dauran peeche ki site hide + hero video pause, taake intro smooth chale */
 (function () {
   var root = document.documentElement;
+  if (!root.classList.contains('intro-lock')) return;
+
+  var st = document.createElement('style');
+  st.textContent = 'html.intro-lock header,html.intro-lock main,html.intro-lock footer{visibility:hidden}';
+  document.head.appendChild(st);
+
   var v = document.getElementById('heroVideo');
-  if (!v || !root.classList.contains('intro-lock')) return;
-  v.pause();
+  if (v) v.pause();
+
   var mo = new MutationObserver(function () {
     if (!root.classList.contains('intro-lock')) {
       mo.disconnect();
-      v.play().catch(function () {});
+      st.remove();
+      if (v) v.play().catch(function () {});
     }
   });
   mo.observe(root, { attributes: true, attributeFilter: ['class'] });
