@@ -7375,6 +7375,21 @@ document.querySelectorAll('.dd-btn').forEach(function (btn) {
   });
 });
 </script>
+  <script>
+(function () {
+  var root = document.documentElement;
+  var v = document.getElementById('heroVideo');
+  if (!v || !root.classList.contains('intro-lock')) return;
+  v.pause();
+  var mo = new MutationObserver(function () {
+    if (!root.classList.contains('intro-lock')) {
+      mo.disconnect();
+      v.play().catch(function () {});
+    }
+  });
+  mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
 </body>
 </html>
   
