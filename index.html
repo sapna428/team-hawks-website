@@ -2,13 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-    <script>
-    try {
-      if (sessionStorage.getItem('hkIntroSeen')) {
-        document.documentElement.classList.add('intro-seen');
-      }
-    } catch (e) {}
-  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
@@ -5520,14 +5513,6 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 </head>
 
 <body>
-<!-- TEAM HAWKS INTRO VIDEO -->
-<div id="page-loader">
-  <video id="introVideo" muted autoplay playsinline preload="auto">
-    <source src="./intro.mp4" type="video/mp4">
-  </video>
-  <button id="skipIntro" type="button">Skip ↗</button>
-</div>
-
   <!-- HEADER -->
   <header class="site-header">
     <div class="wrap nav-inner">
@@ -6507,58 +6492,6 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     })();
 
   </script>
-
-<script>
-  (() => {
-    const loader = document.getElementById("page-loader");
-    const video  = document.getElementById("introVideo");
-    const skip   = document.getElementById("skipIntro");
-    if (!loader) return;
-
-    const root = document.documentElement;
-    /* agar intro is tab mein pehle chal chuka hai to skip karo */
-    if (root.classList.contains("intro-seen")) {
-      loader.remove();
-      return;
-    }
-    try { sessionStorage.setItem("hkIntroSeen", "1"); } catch (e) {}
-    root.classList.add("intro-lock");
-    root.classList.add("intro-lock");
-
-    let finished = false;
-    let safety;
-
-    function hideLoader() {
-      if (finished) return;
-      finished = true;
-      clearTimeout(safety);
-      root.classList.remove("intro-lock");
-      loader.classList.add("loader-hidden");
-      setTimeout(() => loader.remove(), 800);
-    }
-
-    // Safety limit: starts at 40s, then becomes the real video length + 2s
-    safety = setTimeout(hideLoader, 40000);
-
-    if (video) {
-      video.muted = true;
-
-      video.addEventListener("loadedmetadata", () => {
-        if (isFinite(video.duration)) {
-          clearTimeout(safety);
-          safety = setTimeout(hideLoader, (video.duration + 2) * 1000);
-        }
-      });
-
-      video.addEventListener("ended", hideLoader);
-      video.addEventListener("error", hideLoader);
-      video.play().catch(hideLoader);
-    }
-
-    if (skip) skip.addEventListener("click", hideLoader);
-  })();
-</script>
-
   <script>
     (() => {
       const counters = document.querySelectorAll(
@@ -7421,29 +7354,6 @@ document.querySelectorAll('.dd-btn').forEach(function (btn) {
     btn.setAttribute('aria-expanded', String(open));
   });
 });
-</script>
- <script>
-/* intro ke dauran peeche ki site hide + hero video pause, taake intro smooth chale */
-(function () {
-  var root = document.documentElement;
-  if (!root.classList.contains('intro-lock')) return;
-
-  var st = document.createElement('style');
-  st.textContent = 'html.intro-lock header,html.intro-lock main,html.intro-lock footer{visibility:hidden}';
-  document.head.appendChild(st);
-
-  var v = document.getElementById('heroVideo');
-  if (v) v.pause();
-
-  var mo = new MutationObserver(function () {
-    if (!root.classList.contains('intro-lock')) {
-      mo.disconnect();
-      st.remove();
-      if (v) v.play().catch(function () {});
-    }
-  });
-  mo.observe(root, { attributes: true, attributeFilter: ['class'] });
-})();
 </script>
   <script>
 /* Mobile sidebar: pehle menu + overlay + lock hatao, phir scroll karo */
