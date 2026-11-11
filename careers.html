@@ -239,6 +239,16 @@ details p{margin:0 0 18px;color:#c4c8ce;font-size:14px}
   .cv-drop{flex-direction:column;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  @media (max-width: 960px) {
+  .site-header {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(0, 0, 0, .96) !important;
+  }
+}
+body { overflow-x: clip; }
+.nav-overlay { z-index: 999; }
+html.nav-lock .wa-float { display: none; }
 </style>
 </head>
 <body id="top">
