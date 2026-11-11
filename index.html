@@ -5468,6 +5468,53 @@ html body #about .ti-card .ti-person span {
 }
     /* intro sirf pehli dafa: agar is tab mein pehle chal chuka ho to chupa do */
 html.intro-seen #page-loader { display: none !important; }
+    /* sticky header na tute: clip scroll container nahi banata */
+body { overflow-x: clip; }
+
+/* sirf html ko lock karo, body ko nahi */
+html.nav-lock,
+html.nav-lock body { overflow: visible; }
+html.nav-lock { overflow: hidden; }
+
+@media (max-width: 960px) {
+  /* mobile par blur band, warna fixed sidebar toot jata hai */
+  .site-header,
+  .site-header.scrolled {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .site-header.scrolled {
+    background: rgba(26, 23, 16, .96);
+  }
+
+  /* overlay band ho to touch na roke */
+  .nav-overlay { pointer-events: none; }
+  .nav-overlay.show { pointer-events: auto; }
+}
+    /* sidebar viewport ke hisaab se fixed rahe */
+body { overflow-x: clip; }
+
+@media (max-width: 960px) {
+  .site-header {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, .96);
+  }
+}
+
+/* dark overlay + scroll lock */
+.nav-overlay {
+  position: fixed; inset: 0; z-index: 1099;
+  background: rgba(0, 0, 0, .65);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s, visibility .3s;
+}
+.nav-overlay.show { opacity: 1; visibility: visible; pointer-events: auto; }
+@media (min-width: 961px) { .nav-overlay { display: none; } }
+
+html.nav-lock { overflow: hidden; }
+    .nav-overlay { z-index: 999; }
+html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp button upar na aaye */
   </style>
 
 </head>
@@ -7396,6 +7443,47 @@ document.querySelectorAll('.dd-btn').forEach(function (btn) {
     }
   });
   mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+  <script>
+/* Mobile sidebar: pehle menu + overlay + lock hatao, phir scroll karo */
+(function () {
+  var nav  = document.getElementById('mainNav');
+  var btn  = document.getElementById('menuToggle');
+  var root = document.documentElement;
+  var mq   = window.matchMedia('(max-width: 960px)');
+  if (!nav || !btn) return;
+
+  function resetMenu() {
+    nav.classList.remove('open');
+    root.classList.remove('nav-lock');
+    var o = document.querySelector('.nav-overlay');
+    if (o) o.classList.remove('show');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open navigation');
+    btn.textContent = '☰';
+  }
+
+  nav.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (!mq.matches) return;
+      var id = a.getAttribute('href').slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+
+      e.preventDefault();
+      resetMenu();                       // 1) menu band + lock hatao
+      setTimeout(function () {           // 2) phir scroll
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + id);
+      }, 80);
+    });
+  });
+
+  /* tablet/desktop par resize ho to sab reset */
+  window.addEventListener('resize', function () { if (!mq.matches) resetMenu(); });
+  /* back button se wapas aao to bhi reset */
+  window.addEventListener('pageshow', resetMenu);
 })();
 </script>
 </body>
