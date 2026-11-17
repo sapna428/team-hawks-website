@@ -6426,72 +6426,171 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       });
     })();
 
-    /* CONTACT FORM - sends in the background, user stays on the same page */
-    (function () {
-      const form = document.getElementById('teamHawksContactForm');
-      if (!form) return;
+  /* CONTACT FORM - sends in the background, user stays on the same page */
+(function () {
+  'use strict';
 
-      const status = document.getElementById('formStatus');
-      const button = form.querySelector('.contact-submit');
-      const buttonText = button.textContent;
+  const form = document.getElementById('teamHawksContactForm');
+  if (!form) return;
 
-      function showStatus(type, message) {
-        status.className = 'form-status ' + type;
-        status.textContent = message;
+  const status = document.getElementById('formStatus');
+  const button = form.querySelector('.contact-submit');
+  const buttonText = button.textContent;
+
+  function showStatus(type, message) {
+    status.className = 'form-status ' + type;
+    status.textContent = message;
+  }
+
+  function blockSubmission() {
+    showStatus(
+      'error',
+      'Please check your details and submit a valid enquiry.'
+    );
+  }
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // 1. Normal required-field validation
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const data = new FormData(form);
+
+    const name = String(data.get('name') || '').trim();
+    const email = String(data.get('email') || '').trim();
+    const company = String(data.get('company') || '').trim();
+    const phone = String(data.get('phone') || '').trim();
+    const message = String(data.get('message') || '').trim();
+
+    // 2. Honeypot protection
+    const honeyField = form.querySelector('[name="_gotcha"]');
+
+    if (honeyField && honeyField.value.trim() !== '') {
+      return;
+    }
+
+    // 3. Minimum time check
+    const timestampField = document.getElementById('contactFormTimestamp');
+    const loadedAt = Number(timestampField?.value);
+    const elapsed = Date.now() - loadedAt;
+
+    if (!Number.isFinite(loadedAt) || elapsed < 5000) {
+      return;
+    }
+
+    // 4. Name validation
+    if (
+      name.length < 2 ||
+      name.length > 70 ||
+      !/^[\p{L}\p{M}\s.'’-]+$/u.test(name)
+    ) {
+      blockSubmission();
+      return;
+    }
+
+    // 5. Email validation
+    if (
+      email.length > 120 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      blockSubmission();
+      return;
+    }
+
+    // 6. Company validation
+    if (company.length > 100 || /https?:\/\/|www\.|<[^>]*>/i.test(company)) {
+      blockSubmission();
+      return;
+    }
+
+    // 7. Phone validation (optional field)
+    if (phone) {
+      const digits = phone.replace(/\D/g, '');
+
+      if (
+        digits.length < 7 ||
+        digits.length > 15 ||
+        !/^[0-9+()\-\s]+$/.test(phone)
+      ) {
+        blockSubmission();
+        return;
+      }
+    }
+
+    // 8. Message validation
+    if (
+      message.length < 20 ||
+      message.length > 1500 ||
+      /https?:\/\/|www\.|<[^>]*>/i.test(message)
+    ) {
+      blockSubmission();
+      return;
+    }
+
+    // 9. Reject repeated character spam
+    if (/(.)\1{14,}/u.test(message)) {
+      blockSubmission();
+      return;
+    }
+
+    // 10. Google reCAPTCHA must load and be completed
+    if (
+      typeof grecaptcha === 'undefined' ||
+      !grecaptcha.getResponse()
+    ) {
+      showStatus(
+        'error',
+        'Please complete the "I am not a robot" verification.'
+      );
+      return;
+    }
+
+    // 11. Prevent multiple submissions
+    button.disabled = true;
+    button.textContent = 'Sending...';
+
+    status.className = 'form-status';
+    status.textContent = '';
+
+    try {
+      await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        mode: 'no-cors'
+      });
+
+      form.reset();
+
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.reset();
       }
 
-      form.addEventListener('submit', async function (event) {
-        event.preventDefault();
+      if (timestampField) {
+        timestampField.value = Date.now();
+      }
 
-        // Browser validation (required fields, email format, etc.)
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-                // Basic bot checks: filled honeypot or form sent too fast
-        const honeyField = form.querySelector('[name="_gotcha"]');
-        const loadedAt = Number(document.getElementById('contactFormTimestamp').value);
-        if ((honeyField && honeyField.value) || (loadedAt && Date.now() - loadedAt < 4000)) {
-          showStatus('success', '✓ Thank you! Your message has been sent. We’ll be in touch soon.');
-          return;
-        }
+      showStatus(
+        'success',
+        '✓ Thank you! Your message has been sent. We’ll be in touch soon.'
+      );
 
-        // reCAPTCHA must be ticked
-        if (typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse()) {
-          showStatus('error', 'Please complete the “I’m not a robot” check before sending.');
-          return;
-        }
+    } catch (error) {
+      showStatus(
+        'error',
+        'Something went wrong. Please try again later.'
+      );
 
-        button.disabled = true;
-        button.textContent = 'Sending...';
-        status.className = 'form-status';
-        status.textContent = '';
+    } finally {
+      button.disabled = false;
+      button.textContent = buttonText;
+    }
+  });
+})();
 
-        try {
-          // no-cors: the message is sent without leaving or reloading the page
-          await fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            mode: 'no-cors'
-          });
-
-          form.reset();
-          if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
-
-          const ts = document.getElementById('contactFormTimestamp');
-          if (ts) ts.value = Date.now();
-
-          showStatus('success', '✓ Thank you! Your message has been sent. We’ll be in touch soon.');
-        } catch (error) {
-          showStatus('error', 'Something went wrong. Please try again, or email us at support@team-hawks.com.');
-        } finally {
-          button.disabled = false;
-          button.textContent = buttonText;
-        }
-      });
-    })();
-
-  </script>
   <script>
     (() => {
       const counters = document.querySelectorAll(
