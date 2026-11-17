@@ -538,6 +538,64 @@ html.nav-lock .wa-float { display: none; }
 
     var honey = form.querySelector('[name="_gotcha"]');
     if (honey && honey.value) { e.preventDefault(); show('success', '✓ Thank you! Your application has been sent.'); return; }
+    
+    // EXTRA SPAM PROTECTION
+    var name = document.getElementById('aName').value.trim();
+    var email = document.getElementById('aEmail').value.trim();
+    var phone = document.getElementById('aPhone').value.trim();
+    var location = document.getElementById('aCity').value.trim();
+    var message = document.getElementById('aMsg').value.trim();
+
+    // Name validation
+    if (!/^[\p{L}\p{M}][\p{L}\p{M}\s.'’-]{1,59}$/u.test(name)) {
+      e.preventDefault();
+      show('error', 'Please enter a valid full name.');
+      return;
+    }
+
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      e.preventDefault();
+      show('error', 'Please enter a valid email address.');
+      return;
+    }
+
+    // Phone validation
+    var digits = phone.replace(/\D/g, '');
+    if (digits.length < 7 || digits.length > 15) {
+      e.preventDefault();
+      show('error', 'Please enter a valid phone number.');
+      return;
+    }
+
+    // Location validation
+    if (location.length < 2 || location.length > 80) {
+      e.preventDefault();
+      show('error', 'Please enter a valid city or country.');
+      return;
+    }
+
+    // Block HTML tags and links in cover note
+    if (/<[^>]*>|https?:\/\/|www\./i.test(message)) {
+      e.preventDefault();
+      show('error', 'Links and HTML code are not allowed in the cover note.');
+      return;
+    }
+
+    // Reject excessively repetitive messages
+    if (/(.)\1{9,}/i.test(message)) {
+      e.preventDefault();
+      show('error', 'Please enter a genuine cover note.');
+      return;
+    }
+
+    // Reject very short or suspiciously long names
+    if (name.length < 2 || name.length > 60) {
+      e.preventDefault();
+      show('error', 'Please enter a valid full name.');
+      return;
+    }
+
     if (Date.now() - Number(ts.value) < 4000) { e.preventDefault(); show('error', 'Please take a moment to review your details, then submit again.'); return; }
 
     if (typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse()) {
