@@ -6243,12 +6243,20 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
   <option value="Refund / Stripe Chargeback / Bookkeeping Support">Refund / Stripe Chargeback / Bookkeeping Support</option>
   <option value="Other">Other</option>
 </select>
-                </div>
-                <div class="contact-field full">
-                  <label for="contactMessage">Project Details *</label>
-                  <textarea id="contactMessage" name="message"
-                    placeholder="Tell us about your goals and requirements..." minlength="10" required></textarea>
-                </div>
+  </div>
+              
+<div class="contact-field full">
+  <label for="contactMessage">Project Details *</label>
+  <textarea
+    id="contactMessage"
+    name="message"
+    placeholder="Tell us about your goals and requirements..."
+    minlength="20"
+    maxlength="1500"
+    required
+  ></textarea>
+</div>
+
 
                 <!-- Google reCAPTCHA checkbox -->
                 <div class="captcha-wrap">
@@ -6426,7 +6434,8 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       });
     })();
 
-  /* CONTACT FORM - sends in the background, user stays on the same page */
+  
+/* TEAM HAWKS - ADVANCED CONTACT FORM SPAM PROTECTION */
 (function () {
   'use strict';
 
@@ -6442,17 +6451,51 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     status.textContent = message;
   }
 
-  function blockSubmission() {
+  function blockSubmission(message) {
     showStatus(
       'error',
-      'Please check your details and submit a valid enquiry.'
+      message || 'Please enter a valid business enquiry.'
     );
+    
+// LIVE SPAM DETECTION
+const messageField = document.getElementById('contactMessage');
+
+const liveSpamPattern =
+  /https?:\/\/|www\.|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
+
+const liveAllowedPattern =
+  /^[A-Za-z\s.,!?'"()&:;’-]*$/;
+
+if (messageField) {
+  messageField.addEventListener('input', function () {
+    const value = messageField.value.trim();
+
+    const isSpam =
+      liveSpamPattern.test(value) ||
+      !liveAllowedPattern.test(value) ||
+      /(.)\1{14,}/u.test(value);
+
+    if (isSpam) {
+      button.disabled = true;
+
+      blockSubmission(
+        'Spam detected! Links, numbers and unsupported characters are not allowed.'
+      );
+    } else {
+      button.disabled = false;
+
+      status.className = 'form-status';
+      status.textContent = '';
+    }
+  });
+}
+
   }
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    // 1. Normal required-field validation
+    // 1. Required field validation
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
@@ -6473,8 +6516,11 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       return;
     }
 
-    // 3. Minimum time check
-    const timestampField = document.getElementById('contactFormTimestamp');
+    // 3. Minimum submission time
+    const timestampField = document.getElementById(
+      'contactFormTimestamp'
+    );
+
     const loadedAt = Number(timestampField?.value);
     const elapsed = Date.now() - loadedAt;
 
@@ -6488,7 +6534,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       name.length > 70 ||
       !/^[\p{L}\p{M}\s.'’-]+$/u.test(name)
     ) {
-      blockSubmission();
+      blockSubmission('Please enter a valid name.');
       return;
     }
 
@@ -6497,17 +6543,20 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       email.length > 120 ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ) {
-      blockSubmission();
+      blockSubmission('Please enter a valid business email.');
       return;
     }
 
     // 6. Company validation
-    if (company.length > 100 || /https?:\/\/|www\.|<[^>]*>/i.test(company)) {
-      blockSubmission();
+    if (
+      company.length > 100 ||
+      /https?:\/\/|www\.|<[^>]*>/i.test(company)
+    ) {
+      blockSubmission('Please enter a valid company name.');
       return;
     }
 
-    // 7. Phone validation (optional field)
+    // 7. Phone validation
     if (phone) {
       const digits = phone.replace(/\D/g, '');
 
@@ -6516,28 +6565,49 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
         digits.length > 15 ||
         !/^[0-9+()\-\s]+$/.test(phone)
       ) {
-        blockSubmission();
+        blockSubmission('Please enter a valid phone number.');
         return;
       }
     }
 
-    // 8. Message validation
-    if (
-      message.length < 20 ||
-      message.length > 1500 ||
-      /https?:\/\/|www\.|<[^>]*>/i.test(message)
-    ) {
-      blockSubmission();
+    // 8. STRICT MESSAGE VALIDATION
+    const allowedMessagePattern =
+      /^[A-Za-z\s.,!?'"()&:;’-]+$/;
+
+    const containsWebsite =
+      /\b(?:https?:\/\/|www\.)|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
+
+    // Message length
+    if (message.length < 20 || message.length > 1500) {
+      blockSubmission(
+        'Your message must contain 20 to 1500 characters.'
+      );
       return;
     }
 
-    // 9. Reject repeated character spam
+    // Only English alphabets and normal punctuation
+    if (!allowedMessagePattern.test(message)) {
+      blockSubmission(
+        'Please use English letters only. Numbers and special characters are not allowed.'
+      );
+      return;
+    }
+
+    // Block website links and domains
+    if (containsWebsite.test(message)) {
+      blockSubmission(
+        'Website links are not allowed in the message.'
+      );
+      return;
+    }
+
+    // 9. Repeated character spam
     if (/(.)\1{14,}/u.test(message)) {
-      blockSubmission();
+      blockSubmission('Your message contains invalid repeated characters.');
       return;
     }
 
-    // 10. Google reCAPTCHA must load and be completed
+    // 10. Google reCAPTCHA validation
     if (
       typeof grecaptcha === 'undefined' ||
       !grecaptcha.getResponse()
@@ -6575,7 +6645,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 
       showStatus(
         'success',
-        '✓ Thank you! Your message has been sent. We’ll be in touch soon.'
+        'Thank you! Your message has been sent. We will be in touch soon.'
       );
 
     } catch (error) {
@@ -6589,6 +6659,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       button.textContent = buttonText;
     }
   });
+
 })();
 
   <script>
