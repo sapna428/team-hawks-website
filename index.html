@@ -6258,11 +6258,11 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 </div>
 
 
-                <!-- Google reCAPTCHA checkbox -->
-                <div class="captcha-wrap">
-                  <div class="g-recaptcha" data-theme="dark" data-sitekey="6LeOx-ktAAAAAPg0K7YubkNrtsVLD9KX9_CTO7X7">
-                  </div>
-                </div>
+<div class="g-recaptcha"
+     data-theme="dark"
+     data-sitekey="6LeOx-ktAAAAAPg0K7YubkNrtsVLD9KX9_CTO7X7"
+     data-callback="onContactCaptchaVerified">
+</div>
                 <div class="contact-field full">
                   <button class="contact-submit" type="submit">Send Message →</button>
                   <p class="contact-note">Please complete the “I'm not a robot” check before sending your message.</p>
@@ -6435,6 +6435,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     })();
 
   
+
 /* TEAM HAWKS - ADVANCED CONTACT FORM SPAM PROTECTION */
 (function () {
   'use strict';
@@ -6444,7 +6445,11 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 
   const status = document.getElementById('formStatus');
   const button = form.querySelector('.contact-submit');
+
+  if (!status || !button) return;
+
   const buttonText = button.textContent;
+  const messageField = document.getElementById('contactMessage');
 
   function showStatus(type, message) {
     status.className = 'form-status ' + type;
@@ -6456,46 +6461,91 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       'error',
       message || 'Please enter a valid business enquiry.'
     );
-    
-// LIVE SPAM DETECTION
-const messageField = document.getElementById('contactMessage');
-
-const liveSpamPattern =
-  /https?:\/\/|www\.|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
-
-const liveAllowedPattern =
-  /^[A-Za-z\s.,!?'"()&:;’-]*$/;
-
-if (messageField) {
-  messageField.addEventListener('input', function () {
-    const value = messageField.value.trim();
-
-    const isSpam =
-      liveSpamPattern.test(value) ||
-      !liveAllowedPattern.test(value) ||
-      /(.)\1{14,}/u.test(value);
-
-    if (isSpam) {
-      button.disabled = true;
-
-      blockSubmission(
-        'Spam detected! Links, numbers and unsupported characters are not allowed.'
-      );
-    } else {
-      button.disabled = false;
-
-      status.className = 'form-status';
-      status.textContent = '';
-    }
-  });
-}
-
   }
 
+  // MESSAGE VALIDATION
+  function validateMessage(message) {
+    const allowedPattern =
+      /^[A-Za-z\s.,!?'\"()&:;’-]+$/;
+
+    const containsWebsite =
+      /\b(?:https?:\/\/|www\.)|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
+
+    if (message.length < 20 || message.length > 1500) {
+      return 'Your message must contain 20 to 1500 characters.';
+    }
+
+    if (!allowedPattern.test(message)) {
+      return 'Please use English letters only. Numbers and special characters are not allowed.';
+    }
+
+    if (containsWebsite.test(message)) {
+      return 'Website links are not allowed in the message.';
+    }
+
+    if (/(.)\1{14,}/u.test(message)) {
+      return 'Your message contains invalid repeated characters.';
+    }
+
+    return '';
+  }
+
+  // LIVE SPAM DETECTION
+  if (messageField) {
+    messageField.addEventListener('input', function () {
+      const message = messageField.value.trim();
+
+      // Allow an empty field while the visitor is typing.
+      if (!message) {
+        button.disabled = false;
+        status.className = 'form-status';
+        status.textContent = '';
+        return;
+      }
+
+      const error = validateMessage(message);
+
+      if (error) {
+        button.disabled = true;
+        blockSubmission('Spam or invalid message detected! ' + error);
+      } else {
+        button.disabled = false;
+        status.className = 'form-status';
+        status.textContent = '';
+      }
+    });
+  }
+
+  // GOOGLE reCAPTCHA CALLBACK
+  window.onContactCaptchaVerified = function () {
+    const message = messageField
+      ? messageField.value.trim()
+      : '';
+
+    const error = validateMessage(message);
+
+    if (error) {
+      button.disabled = true;
+      blockSubmission(
+        'Verification failed! ' + error
+      );
+
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.reset();
+      }
+
+      return;
+    }
+
+    button.disabled = false;
+    status.className = 'form-status';
+    status.textContent = '';
+  };
+
+  // FORM SUBMISSION
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    // 1. Required field validation
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
@@ -6509,14 +6559,14 @@ if (messageField) {
     const phone = String(data.get('phone') || '').trim();
     const message = String(data.get('message') || '').trim();
 
-    // 2. Honeypot protection
+    // HONEYPOT PROTECTION
     const honeyField = form.querySelector('[name="_gotcha"]');
 
     if (honeyField && honeyField.value.trim() !== '') {
       return;
     }
 
-    // 3. Minimum submission time
+    // MINIMUM SUBMISSION TIME
     const timestampField = document.getElementById(
       'contactFormTimestamp'
     );
@@ -6525,10 +6575,11 @@ if (messageField) {
     const elapsed = Date.now() - loadedAt;
 
     if (!Number.isFinite(loadedAt) || elapsed < 5000) {
+      blockSubmission('Please wait a moment before submitting.');
       return;
     }
 
-    // 4. Name validation
+    // NAME VALIDATION
     if (
       name.length < 2 ||
       name.length > 70 ||
@@ -6538,7 +6589,7 @@ if (messageField) {
       return;
     }
 
-    // 5. Email validation
+    // EMAIL VALIDATION
     if (
       email.length > 120 ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -6547,7 +6598,7 @@ if (messageField) {
       return;
     }
 
-    // 6. Company validation
+    // COMPANY VALIDATION
     if (
       company.length > 100 ||
       /https?:\/\/|www\.|<[^>]*>/i.test(company)
@@ -6556,7 +6607,7 @@ if (messageField) {
       return;
     }
 
-    // 7. Phone validation
+    // PHONE VALIDATION
     if (phone) {
       const digits = phone.replace(/\D/g, '');
 
@@ -6570,44 +6621,15 @@ if (messageField) {
       }
     }
 
-    // 8. STRICT MESSAGE VALIDATION
-    const allowedMessagePattern =
-      /^[A-Za-z\s.,!?'"()&:;’-]+$/;
+    // MESSAGE VALIDATION
+    const messageError = validateMessage(message);
 
-    const containsWebsite =
-      /\b(?:https?:\/\/|www\.)|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
-
-    // Message length
-    if (message.length < 20 || message.length > 1500) {
-      blockSubmission(
-        'Your message must contain 20 to 1500 characters.'
-      );
+    if (messageError) {
+      blockSubmission(messageError);
       return;
     }
 
-    // Only English alphabets and normal punctuation
-    if (!allowedMessagePattern.test(message)) {
-      blockSubmission(
-        'Please use English letters only. Numbers and special characters are not allowed.'
-      );
-      return;
-    }
-
-    // Block website links and domains
-    if (containsWebsite.test(message)) {
-      blockSubmission(
-        'Website links are not allowed in the message.'
-      );
-      return;
-    }
-
-    // 9. Repeated character spam
-    if (/(.)\1{14,}/u.test(message)) {
-      blockSubmission('Your message contains invalid repeated characters.');
-      return;
-    }
-
-    // 10. Google reCAPTCHA validation
+    // GOOGLE reCAPTCHA VALIDATION
     if (
       typeof grecaptcha === 'undefined' ||
       !grecaptcha.getResponse()
@@ -6619,7 +6641,7 @@ if (messageField) {
       return;
     }
 
-    // 11. Prevent multiple submissions
+    // PREVENT MULTIPLE SUBMISSIONS
     button.disabled = true;
     button.textContent = 'Sending...';
 
@@ -6661,6 +6683,7 @@ if (messageField) {
   });
 
 })();
+
 
   <script>
     (() => {
