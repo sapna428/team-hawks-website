@@ -7,9 +7,7 @@
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Join Team Hawks. Apply for open roles and upload your CV.">
 <title>Careers | Team Hawks</title>
-<link rel="canonical" href="https://www.team-hawks.com/careers">
-<meta property="og:url" content="https://www.team-hawks.com/careers">
-<link rel="icon" type="image/jpeg" href="/team-hawks-site/logo.jpg">
+<link rel="icon" type="image/jpeg" href="./team-hawks-site/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
@@ -37,18 +35,6 @@ a{color:inherit;text-decoration:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 22px;border-radius:6px;background:var(--gold);color:#111;font-size:14px;font-weight:700;transition:.25s}
 .btn:hover{background:#ffc15b;transform:translateY(-2px)}
 .menu-toggle{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:7px;background:#08090a;color:#fff;font-size:25px;cursor:pointer}
-
-/* SERVICES DROPDOWN */
-.nav-dd{position:relative;display:flex;align-items:center;gap:4px}
-.nav-dd .dd-toggle{color:#b9bdc4;font-size:14px;font-weight:600;padding:8px 2px;transition:color .25s,text-shadow .25s}
-.nav-dd:hover .dd-toggle{color:#fff;text-shadow:0 0 14px rgba(245,166,35,.45)}
-.dd-btn{background:none;border:0;padding:4px;cursor:pointer;color:#b9bdc4;font-size:13px;line-height:1;transition:transform .3s ease,color .25s}
-.nav-dd:hover .dd-btn{color:var(--gold);transform:rotate(180deg)}
-.dd-menu{position:absolute;top:100%;left:-14px;width:310px;padding:10px;margin-top:10px;border:1px solid rgba(245,166,35,.4);border-radius:12px;background:linear-gradient(180deg,#1d1e21,#0b0b0c);box-shadow:0 24px 50px rgba(0,0,0,.7),0 0 24px rgba(245,166,35,.12);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s;z-index:1200}
-.dd-menu::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
-.nav-dd:hover .dd-menu,.nav-dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .25s ease,transform .25s ease,visibility 0s}
-.dd-menu .dd-link{display:block;padding:10px 12px;border-radius:8px;color:#c4c8ce;font-size:13.5px;font-weight:600;transition:background .2s,color .2s,padding-left .2s}
-.dd-menu .dd-link:hover{color:#fff;padding-left:18px;background:linear-gradient(90deg,rgba(245,166,35,.2),transparent)}
 
 /* HERO */
 .career-hero{padding:80px 0 50px;text-align:center;background:radial-gradient(ellipse at 50% 0,rgba(245,166,35,.13),transparent 60%),#000}
@@ -100,43 +86,10 @@ a{color:inherit;text-decoration:none}
 .status.error{display:block;color:#ff9a9a;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.45)}
 .captcha-wrap{grid-column:1/-1;overflow-x:auto;padding:2px 0}
 
-/* FOOTER (same as the main site) */
-.site-footer{position:relative;isolation:isolate;overflow:hidden;padding:56px 0 24px;background:linear-gradient(180deg,#212225 0%,#17181a 55%,#111213 100%);border-top:1px solid rgba(245,166,35,.35)}
-.site-footer::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent 0%,rgba(245,166,35,.95) 50%,transparent 100%);background-size:40% 100%;background-repeat:no-repeat;animation:hk-footer-line 5s ease-in-out infinite}
-.site-footer::after{content:"";position:absolute;width:480px;height:480px;top:-200px;left:-120px;z-index:-1;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,.13),transparent 70%);filter:blur(60px);animation:hk-footer-glow 14s ease-in-out infinite alternate}
-@keyframes hk-footer-line{0%{background-position:-40% 0}100%{background-position:140% 0}}
-@keyframes hk-footer-glow{to{transform:translate(70vw,60px) scale(1.15)}}
-.footer-main{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:40px}
-.site-footer .brand{gap:15px}
-.site-footer .brand-name{font-size:27px}
-.site-footer .brand-tag{font-size:11.5px;letter-spacing:2.4px;margin-top:6px}
-.site-footer img.footer-logo{width:130px;height:130px;object-fit:contain;display:block;filter:brightness(1.3) contrast(1.08) saturate(1.12) drop-shadow(0 0 14px rgba(245,166,35,.28));animation:hk-footer-float 5s ease-in-out infinite}
-@keyframes hk-footer-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.footer-description{max-width:420px;margin:20px 0 0;color:#b9bec6;font-size:14.5px;line-height:1.85}
-.footer-col h4{position:relative;margin:0 0 20px;padding-bottom:12px;font-size:17px;font-weight:700}
-.footer-col h4::after{content:"";position:absolute;left:0;bottom:0;width:28px;height:2px;background:var(--gold);transition:width .4s ease}
-.footer-col:hover h4::after{width:60px}
-.footer-col a,.footer-col p{display:block;margin:0 0 13px;color:#b9bec6;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
-.footer-col a{position:relative;width:fit-content;transition:color .25s ease,transform .25s ease}
-.footer-col a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
-.footer-col a:hover{color:var(--gold);transform:translateX(6px)}
-.footer-col a:hover::after{transform:scaleX(1)}
-.footer-bottom{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:22px;border-top:1px solid #34363b;color:#9aa0a9;font-size:13px}
-.footer-bottom a:hover{color:var(--gold)}
-.footer-main>*{animation:hk-footer-in .9s ease both}
-.footer-main>*:nth-child(2){animation-delay:.15s}
-.footer-main>*:nth-child(3){animation-delay:.3s}
-@keyframes hk-footer-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:800px){.footer-main{grid-template-columns:1fr 1fr}.footer-brand-col{grid-column:1/-1}}
-@media(max-width:600px){
-  .site-footer img.footer-logo{width:96px;height:96px}
-  .site-footer .brand-name{font-size:23px}
-  .site-footer .brand-tag{font-size:9.5px;letter-spacing:1.8px}
-  .footer-main{grid-template-columns:1fr;gap:28px}
-  .footer-brand-col{grid-column:auto}
-  .footer-bottom{flex-direction:column}
-}
-@media(prefers-reduced-motion:reduce){.site-footer::before,.site-footer::after,.site-footer img.footer-logo,.footer-main>*{animation:none!important}}
+/* FOOTER */
+.site-footer{padding:34px 0;background:linear-gradient(180deg,#212225,#111213);border-top:1px solid rgba(245,166,35,.35)}
+.footer-row{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;color:#9aa0a9;font-size:13px}
+.footer-row a:hover{color:var(--gold)}
 
 .wa-float{position:fixed;z-index:1200;right:21px;bottom:20px;width:49px;height:49px;display:grid;place-items:center;border-radius:50%;background:#25d366;color:#fff;box-shadow:0 8px 28px #0008}
 .wa-float svg{width:23px;height:23px}
@@ -148,6 +101,15 @@ a{color:inherit;text-decoration:none}
 .sec-head{text-align:center;max-width:620px;margin:0 auto 34px}
 .sec-head h2{margin:10px 0 8px;font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,4vw,40px);font-weight:600}
 .sec-head p{margin:0;color:#b9bdc4;font-size:14px}
+.jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.job{display:flex;flex-direction:column;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--card);transition:transform .25s,border-color .25s,box-shadow .25s}
+.job:hover{transform:translateY(-6px);border-color:rgba(245,166,35,.6);box-shadow:0 18px 40px rgba(245,166,35,.12)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tags span{padding:3px 10px;border-radius:50px;border:1px solid rgba(245,166,35,.4);color:var(--gold2);font-size:11px;font-weight:600}
+.job h3{margin:0 0 8px;font-size:18px}
+.job p{margin:0 0 18px;color:#c4c8ce;font-size:14px;line-height:1.65;flex:1}
+.job button{align-self:flex-start;min-height:42px;padding:0 18px;border:1px solid var(--gold);border-radius:6px;background:transparent;color:var(--gold);font:700 13px 'Inter',sans-serif;cursor:pointer;transition:.25s}
+.job button:hover{background:var(--gold);color:#111}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
 .steps:before{content:"";position:absolute;top:26px;left:12.5%;right:12.5%;height:2px;background:linear-gradient(90deg,var(--gold),rgba(245,166,35,.3))}
 .step{text-align:center;position:relative}
@@ -185,8 +147,8 @@ details p{margin:0 0 18px;color:#c4c8ce;font-size:14px}
 .word{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(.4em);animation:wi .9s cubic-bezier(.22,1,.36,1) forwards;animation-delay:calc(var(--i)*80ms)}
 @keyframes wi{to{opacity:1;filter:none;transform:none}}
 .gold-text .word{background:linear-gradient(100deg,#ffe29a,#f5a623 55%,#b97e1e);-webkit-background-clip:text;background-clip:text;color:transparent}
-@media(max-width:960px){.steps{grid-template-columns:repeat(2,1fr)}.steps:before{display:none}}
-@media(max-width:600px){.steps{grid-template-columns:1fr}}
+@media(max-width:960px){.jobs,.steps{grid-template-columns:repeat(2,1fr)}.steps:before{display:none}}
+@media(max-width:600px){.jobs,.steps{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.word{animation:none;opacity:1;filter:none;transform:none}}
 
 /* WORLD GLOBE SECTION (scroll-reveal + rotating globe) */
@@ -210,24 +172,13 @@ details p{margin:0 0 18px;color:#c4c8ce;font-size:14px}
   .nav-inner{min-height:84px}
   .brand img{width:60px;height:60px}
   .menu-toggle{display:grid;place-items:center;position:relative;z-index:1102}
-  .nav-links{position:fixed;top:0;right:0;bottom:0;width:min(320px,82vw);padding:96px 22px 30px;flex-direction:column;align-items:stretch;gap:6px;background:linear-gradient(180deg,#1d1e21,#0b0b0c);border-left:1px solid rgba(245,166,35,.35);box-shadow:-24px 0 60px rgba(0,0,0,.7);transform:translateX(105%);visibility:hidden;transition:transform .4s ease,visibility 0s linear .4s;z-index:1101;overflow-y:auto}
+  .nav-links{position:fixed;top:0;right:0;bottom:0;width:min(320px,82vw);padding:96px 22px 30px;flex-direction:column;align-items:stretch;gap:6px;background:linear-gradient(180deg,#1d1e21,#0b0b0c);border-left:1px solid rgba(245,166,35,.35);box-shadow:-24px 0 60px rgba(0,0,0,.7);transform:translateX(105%);visibility:hidden;transition:transform .4s ease,visibility 0s linear .4s;z-index:1101}
   .nav-links.open{transform:none;visibility:visible;transition:transform .4s ease}
   .nav-links>a:not(.btn){padding:15px 16px;font-size:16px;border-radius:10px}
   .nav-links>a.active:after{display:none}
   .nav-links>a.active{background:linear-gradient(90deg,rgba(245,166,35,.18),transparent)}
   .nav-links .btn{margin-top:16px}
   .perks{grid-template-columns:1fr}
-
-  /* dropdown inside the sidebar */
-  .nav-dd{flex-wrap:wrap;justify-content:space-between}
-  .nav-dd .dd-toggle{flex:1;padding:15px 16px;font-size:16px}
-  .dd-btn{padding:12px 16px;font-size:16px}
-  .nav-dd:hover .dd-btn{transform:none}
-  .nav-dd.open .dd-btn{transform:rotate(180deg);color:var(--gold)}
-  .dd-menu{position:static;width:100%;margin:0 0 6px;padding:4px 0 4px 12px;border:0;border-left:2px solid rgba(245,166,35,.4);border-radius:0;background:none;box-shadow:none;display:none;opacity:1;visibility:visible;transform:none}
-  .dd-menu::before{display:none}
-  .nav-dd:hover .dd-menu,.nav-dd:focus-within .dd-menu{display:none}
-  .nav-dd.open .dd-menu{display:block}
 }
 @media(max-width:600px){
   .wrap{width:calc(100% - 28px)}
@@ -239,24 +190,36 @@ details p{margin:0 0 18px;color:#c4c8ce;font-size:14px}
   .cv-drop{flex-direction:column;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-  @media (max-width: 960px) {
+/* sidebar viewport ke hisaab se fixed rahe */
+body { overflow-x: clip; }
+
+@media (max-width: 960px) {
   .site-header {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    background: rgba(0, 0, 0, .96) !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, .96);
   }
 }
-body { overflow-x: clip; }
-.nav-overlay { z-index: 999; }
-html.nav-lock .wa-float { display: none; }
+
+/* dark overlay + scroll lock */
+.nav-overlay {
+  position: fixed; inset: 0; z-index: 1099;
+  background: rgba(0, 0, 0, .65);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s, visibility .3s;
+}
+.nav-overlay.show { opacity: 1; visibility: visible; pointer-events: auto; }
+@media (min-width: 961px) { .nav-overlay { display: none; } }
+
+html.nav-lock { overflow: hidden; }
 </style>
 </head>
-<body id="top">
+<body>
 
 <header class="site-header">
   <div class="wrap nav-inner">
-    <a class="brand" href="/index.html#home" aria-label="Team Hawks home">
-      <img src="/team-hawks-site/logo.jpg" alt="Team Hawks Logo">
+    <a class="brand" href="index.html#home" aria-label="Team Hawks home">
+      <img src="./team-hawks-site/logo.jpg" alt="Team Hawks Logo">
       <span class="brand-copy">
         <span class="brand-name">Team <span>Hawks</span></span>
         <span class="brand-tag">OUTSOURCING EXCELLENCE</span>
@@ -264,27 +227,11 @@ html.nav-lock .wa-float { display: none; }
     </a>
     <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mainNav">☰</button>
     <nav class="nav-links" id="mainNav" aria-label="Main navigation">
-      <a href="/index.html#about">About Us</a>
-
-      <div class="nav-dd">
-        <a class="dd-toggle" href="/index.html#services">Services</a>
-        <button class="dd-btn" type="button" aria-label="Show sub services" aria-expanded="false">▾</button>
-        <div class="dd-menu">
-          <a class="dd-link" href="/index.html#services">Lead Generation Services</a>
-          <a class="dd-link" href="/index.html#services">E-Commerce Support</a>
-          <a class="dd-link" href="/index.html#services">Email / Live Chat Support</a>
-          <a class="dd-link" href="/index.html#services">Data Clean-up Support</a>
-          <a class="dd-link" href="/index.html#services">Web App Development</a>
-          <a class="dd-link" href="/index.html#services">Digital Marketing</a>
-          <a class="dd-link" href="/index.html#services">Back-Office Support</a>
-          <a class="dd-link" href="/index.html#services">Sales Support</a>
-          <a class="dd-link" href="/index.html#services">Refund / Stripe Chargeback / Bookkeeping</a>
-        </div>
-      </div>
-
-      <a href="/index.html#industries">Industries</a>
-      <a href="/index.html#why">Why Team Hawks</a>
-      <a class="active" href="/careers" aria-current="page">Career <span class="badge">Hiring</span></a>
+            <a href="index.html#about">About Us</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#industries">Industries</a>
+      <a href="index.html#why">Why Team Hawks</a>
+      <a class="active" href="careers.html" aria-current="page">Career <span class="badge">Hiring</span></a>
       <a class="btn" href="https://wa.me/923456115222" target="_blank" rel="noopener noreferrer">Contact Us ↗</a>
     </nav>
   </div>
@@ -309,10 +256,6 @@ html.nav-lock .wa-float { display: none; }
     <p>We hire people who care about quality, communicate honestly and help each other grow. If that sounds like you, we would love to hear from you.</p></div>
   </div>
 </section>
-
-<section class="wrap sec"><div class="sec-head"><div class="eyebrow">Why join us</div><h2>Why Team Hawks</h2><p>Reasons our team enjoys working here.</p></div><div class="perks" style="padding:0"><div class="perk"><h3>Real client work</h3><p>Support growing businesses across lead generation, e-commerce, support and development.</p></div><div class="perk"><h3>Learn and grow</h3><p>Work beside experienced teammates and take on more responsibility as you improve.</p></div><div class="perk"><h3>Supportive team</h3><p>Clear processes, honest feedback and people who back each other up.</p></div><div class="perk"><h3>Flexible schedules</h3><p>Roles with remote, hybrid and shift options depending on the position.</p></div><div class="perk"><h3>Performance rewards</h3><p>Good work is noticed and rewarded.</p></div><div class="perk"><h3>Global exposure</h3><p>Work with clients from Pakistan, London and beyond.</p></div></div></section>
-<section class="wrap sec"><div class="sec-head"><div class="eyebrow">Hiring process</div><h2>From application to offer</h2><p>What to expect after you apply.</p></div><div class="steps"><div class="step"><i>01</i><h3>Apply</h3><p>Send the form with your CV.</p></div><div class="step"><i>02</i><h3>Screening call</h3><p>A short call to get to know you.</p></div><div class="step"><i>03</i><h3>Interview</h3><p>Meet the team and talk about the role.</p></div><div class="step"><i>04</i><h3>Offer</h3><p>Get a decision and join Team Hawks.</p></div></div></section>
-
   <section class="apply" id="apply">
     <div class="wrap">
       <div class="apply-box">
@@ -408,46 +351,13 @@ html.nav-lock .wa-float { display: none; }
       </div>
     </div>
   </section>
-<section class="wrap sec" id="faq"><div class="sec-head"><div class="eyebrow">FAQ</div><h2>Common questions</h2><p>Quick answers before you apply.</p></div><div class="faq"><details><summary>Can I work remotely?</summary><p>Some roles are remote or hybrid. The work type is shared with you during the hiring process.</p></details><details><summary>How long does hiring take?</summary><p>We review every application and contact shortlisted candidates for a screening call.</p></details><details><summary>Do I need experience?</summary><p>Some roles accept freshers. Choose the experience option that fits you in the form.</p></details><details><summary>Which CV formats can I upload?</summary><p>PDF, DOC and DOCX files up to 5 MB.</p></details></div></section>
+<section class="wrap sec" id="faq"><div class="sec-head"><div class="eyebrow">FAQ</div><h2>Common questions</h2><p>Quick answers before you apply.</p></div><div class="faq"><details><summary>Can I work remotely?</summary><p>Some roles are remote or hybrid. Each role card shows its work type.</p></details><details><summary>How long does hiring take?</summary><p>We review every application and contact shortlisted candidates for a screening call.</p></details><details><summary>Do I need experience?</summary><p>Some roles accept freshers. Choose the experience option that fits you in the form.</p></details><details><summary>Which CV formats can I upload?</summary><p>PDF, DOC and DOCX files up to 5 MB.</p></details></div></section>
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-main">
-      <div class="footer-brand-col">
-        <a class="brand" href="/index.html#home">
-          <img src="/team-hawks-site/logo.jpg" alt="Team Hawks Logo" class="footer-logo">
-          <span class="brand-copy">
-            <span class="brand-name">Team <span>Hawks</span></span>
-            <span class="brand-tag">OUTSOURCING EXCELLENCE</span>
-          </span>
-        </a>
-        <p class="footer-description">A dedicated outsourcing partner helping businesses build stronger teams, improve operations, and support sustainable growth.</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <a href="/index.html#home">Home</a>
-        <a href="/index.html#why">Why Team Hawks</a>
-        <a href="/index.html#services">Our Services</a>
-        <a href="/index.html#how-we-work">How We Work</a>
-        <a href="/index.html#about">Client Experiences</a>
-        <a href="/careers">Careers</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <p>Pakistan: <a href="tel:+923456115222">+92 345 6115222</a></p>
-        <p>London: <a href="tel:+447599681179">+44 7599 681179</a></p>
-        <p>Email: <a href="mailto:support@team-hawks.com">support@team-hawks.com</a></p>
-        <a href="https://wa.me/923456115222" target="_blank" rel="noopener noreferrer">Chat on WhatsApp ↗</a>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <span>© 2026 Team Hawks. All rights reserved.</span>
-      <a href="#top">Back to top ↑</a>
-    </div>
+  <div class="wrap footer-row">
+    <span>© 2026 Team Hawks. All rights reserved.</span>
+    <span><a href="mailto:support@team-hawks.com">support@team-hawks.com</a> · <a href="index.html#home">Back to home</a></span>
   </div>
 </footer>
 
@@ -458,26 +368,34 @@ html.nav-lock .wa-float { display: none; }
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
-/* Mobile menu + Services dropdown */
+/* Mobile menu */
 (function () {
-  var btn = document.getElementById('menuToggle'), nav = document.getElementById('mainNav');
+  var btn = document.getElementById('menuToggle'),
+      nav = document.getElementById('mainNav'),
+      root = document.documentElement,
+      mq = window.matchMedia('(max-width: 960px)');
+
+  var overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
   function setOpen(o) {
     nav.classList.toggle('open', o);
+    overlay.classList.toggle('show', o && mq.matches);
+    root.classList.toggle('nav-lock', o && mq.matches);
     btn.setAttribute('aria-expanded', String(o));
+    btn.setAttribute('aria-label', o ? 'Close navigation' : 'Open navigation');
     btn.textContent = o ? '×' : '☰';
   }
-  btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
-  nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
 
-  /* arrow button opens the sub services list on mobile */
-  document.querySelectorAll('.dd-btn').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var dd = b.closest('.nav-dd');
-      var open = dd.classList.toggle('open');
-      b.setAttribute('aria-expanded', String(open));
-    });
+  btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+  overlay.addEventListener('click', function () { setOpen(false); });
+  nav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setOpen(false); });
   });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  window.addEventListener('resize', function () { if (!mq.matches) setOpen(false); });
+  window.addEventListener('pageshow', function () { setOpen(false); });
 })();
 
 /* Career form */
@@ -538,64 +456,6 @@ html.nav-lock .wa-float { display: none; }
 
     var honey = form.querySelector('[name="_gotcha"]');
     if (honey && honey.value) { e.preventDefault(); show('success', '✓ Thank you! Your application has been sent.'); return; }
-    
-    // EXTRA SPAM PROTECTION
-    var name = document.getElementById('aName').value.trim();
-    var email = document.getElementById('aEmail').value.trim();
-    var phone = document.getElementById('aPhone').value.trim();
-    var location = document.getElementById('aCity').value.trim();
-    var message = document.getElementById('aMsg').value.trim();
-
-    // Name validation
-    if (!/^[\p{L}\p{M}][\p{L}\p{M}\s.'’-]{1,59}$/u.test(name)) {
-      e.preventDefault();
-      show('error', 'Please enter a valid full name.');
-      return;
-    }
-
-    // Email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      e.preventDefault();
-      show('error', 'Please enter a valid email address.');
-      return;
-    }
-
-    // Phone validation
-    var digits = phone.replace(/\D/g, '');
-    if (digits.length < 7 || digits.length > 15) {
-      e.preventDefault();
-      show('error', 'Please enter a valid phone number.');
-      return;
-    }
-
-    // Location validation
-    if (location.length < 2 || location.length > 80) {
-      e.preventDefault();
-      show('error', 'Please enter a valid city or country.');
-      return;
-    }
-
-    // Block HTML tags and links in cover note
-    if (/<[^>]*>|https?:\/\/|www\./i.test(message)) {
-      e.preventDefault();
-      show('error', 'Links and HTML code are not allowed in the cover note.');
-      return;
-    }
-
-    // Reject excessively repetitive messages
-    if (/(.)\1{9,}/i.test(message)) {
-      e.preventDefault();
-      show('error', 'Please enter a genuine cover note.');
-      return;
-    }
-
-    // Reject very short or suspiciously long names
-    if (name.length < 2 || name.length > 60) {
-      e.preventDefault();
-      show('error', 'Please enter a valid full name.');
-      return;
-    }
-
     if (Date.now() - Number(ts.value) < 4000) { e.preventDefault(); show('error', 'Please take a moment to review your details, then submit again.'); return; }
 
     if (typeof grecaptcha !== 'undefined' && !grecaptcha.getResponse()) {
