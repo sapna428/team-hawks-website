@@ -5550,7 +5550,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 
         <a href="#industries">Industries</a>
         <a href="#why">Why Team Hawks</a>
-        <a href="/careers">Career <span class="hk-badge">Hiring</span></a>
+       <a href="careers.html">Career <span class="hk-badge">Hiring</span></a>
         <a class="btn-custom btn-gold nav-cta" href="https://wa.me/923456115222" target="_blank"
           rel="noopener noreferrer">Contact Us ↗</a>
       </nav>
@@ -6150,7 +6150,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 
           <div class="contact-form">
             <h3>Send Us a Message</h3>
-        <form id="teamHawksContactForm" action="https://formsubmit.app/f/9e5xrymuy9" method="POST">
+        <form id="teamHawksContactForm" action="https://hawks-contact.afsarkhankhan227.workers.dev/" method="POST">
               <input type="hidden" name="_subject" value="New Team Hawks Website Inquiry">
               <input type="hidden" name="_ts" id="contactFormTimestamp">
 
@@ -6328,7 +6328,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
           <a href="#services">Our Services</a>
         <a href="#how-we-work">How We Work</a>
           <a href="#about">Client Experiences</a>
-          <a href="/careers">Careers</a>
+          <a href="careers.html">Careers</a>
         </div>
 
         <div class="footer-col">
@@ -6649,11 +6649,15 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     status.textContent = '';
 
     try {
-      await fetch(form.action, {
+      const res = await fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
-        mode: 'no-cors'
+        body: new FormData(form)
       });
+      const result = await res.json().catch(function () { return {}; });
+
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || 'Send failed');
+      }
 
       form.reset();
 
@@ -6671,11 +6675,16 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
       );
 
     } catch (error) {
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.reset();
+      }
+
       showStatus(
         'error',
-        'Something went wrong. Please try again later.'
+        error instanceof TypeError
+          ? 'Something went wrong. Please try again later.'
+          : error.message
       );
-
     } finally {
       button.disabled = false;
       button.textContent = buttonText;
@@ -6683,8 +6692,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
   });
 
 })();
-  </script>
-
+</script>
 
   <script>
     (() => {
