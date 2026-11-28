@@ -6115,6 +6115,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     </div>
   </div>
 </div>
+  </div>
 </section>
 
     <!-- CONTACT FORM -->
@@ -6258,7 +6259,7 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 </div>
 
 
-<div class="g-recaptcha"
+<div class="g-recaptcha captcha-wrap"
      data-theme="dark"
      data-sitekey="6LeOx-ktAAAAAPg0K7YubkNrtsVLD9KX9_CTO7X7"
      data-callback="onContactCaptchaVerified">
@@ -6463,30 +6464,48 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
     );
   }
 
-  // MESSAGE VALIDATION
+  // MESSAGE VALIDATION (Worker ke rules ke mutabiq)
+  const LATIN_ONLY = /^[\p{Script=Latin}\p{Script=Common}\p{Script=Inherited}]*$/u;
+  const LINK_RE = /\b(?:https?:\/\/|www\.)[^\s<>"']+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|io|app|dev|info|biz|xyz|top|site|online|shop|store|link|click|ru|su|cn|ai|pk|edu)\b(?:\/[^\s<>"']*)?/gi;
+  const MAX_LINKS = 1;
+  const MAX_LINK_LENGTH = 60;
+  const SHORTENERS = ['bit.ly','tinyurl.com','t.co','goo.gl','cutt.ly','is.gd','rb.gy','ow.ly','buff.ly','shorturl.at','tiny.cc','rebrand.ly','t.ly','lnkd.in'];
+  const BAD_LINK_TLDS = ['ru','su','cn','top','xyz','click','link','icu','buzz','cyou','monster','rest','tk','ml','ga','cf','gq'];
+  const cleanLink = function (l) { return l.replace(/[.,;:!?)\]'"]+$/, ''); };
+  const hostOf = function (l) {
+    return cleanLink(l).replace(/^https?:\/\//i, '').replace(/^www\./i, '').split(/[\/?#:]/)[0].toLowerCase();
+  };
+
   function validateMessage(message) {
-    const allowedPattern =
-      /^[A-Za-z\s.,!?'\"()&:;’-]+$/;
-
-    const containsWebsite =
-      /\b(?:https?:\/\/|www\.)|\b[a-z0-9-]+\.[a-z]{2,}\b/i;
-
     if (message.length < 20 || message.length > 1500) {
       return 'Your message must contain 20 to 1500 characters.';
     }
-
-    if (!allowedPattern.test(message)) {
-      return 'Please use English letters only. Numbers and special characters are not allowed.';
+    if (!LATIN_ONLY.test(message)) {
+      return 'Please write your message in English.';
     }
 
-    if (containsWebsite.test(message)) {
-      return 'Website links are not allowed in the message.';
+    const links = message.match(LINK_RE) || [];
+    if (links.length > MAX_LINKS) {
+      return 'Please include only one link in your message.';
+    }
+    for (const l of links) {
+      const host = hostOf(l);
+      const tld = host.split('.').pop();
+      if (cleanLink(l).length > MAX_LINK_LENGTH) {
+        return 'Please use a shorter link (up to 60 characters).';
+      }
+      if (SHORTENERS.includes(host) || BAD_LINK_TLDS.includes(tld)) {
+        return 'Please use your normal website link, not a shortened or suspicious one.';
+      }
     }
 
-    if (/(.)\1{14,}/u.test(message)) {
+    const textOnly = message.replace(LINK_RE, ' ');
+    if (textOnly.split(/\s+/).filter(Boolean).length < 4) {
+      return 'Please describe your project in a few words along with the link.';
+    }
+    if (/(.)\1{9,}/u.test(message)) {
       return 'Your message contains invalid repeated characters.';
     }
-
     return '';
   }
 
@@ -6497,6 +6516,13 @@ html.nav-lock .wa-float { display: none; }  /* sidebar khula ho to WhatsApp butt
 
       // Allow an empty field while the visitor is typing.
       if (!message) {
+        button.disabled = false;
+        status.className = 'form-status';
+        status.textContent = '';
+        return;
+      }
+            // 20 characters se pehle error mat dikhao
+      if (message.length < 20) {
         button.disabled = false;
         status.className = 'form-status';
         status.textContent = '';
